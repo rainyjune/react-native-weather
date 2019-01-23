@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "react-native-weather1",
-    "slug": "react-native-weather1",
+    "name": "react-native-weather",
+    "slug": "react-native-weather",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
