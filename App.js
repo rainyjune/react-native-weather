@@ -35,24 +35,24 @@ export default class WeatherOfCity extends Component {
       let newState = {};
       var location = data.location;
 
-      newState.location = location.state + location.city;
-      newState.nowWeatherIcon = '.' + data.current_observation.icon_url;
-      newState.nowWeatherTemp = data.current_observation.temperature + (isNaN(data.current_observation.temperature) ? '' : '℃');
+      newState.location = `${location.state}${location.city}`;
+      newState.nowWeatherIcon = `.${data.current_observation.icon_url}`;
+      newState.nowWeatherTemp = `${data.current_observation.temperature}${(isNaN(data.current_observation.temperature) ? '' : '℃')}`;
       newState.nowWeatherText = data.current_observation.weather;
       newState.lastUpdatedTime = data.current_observation.observation_time;
-      newState.todayTempRange = data.forecast[0].low_temperature + ' ~ ' + data.forecast[0].high_temperature + '℃';
+      newState.todayTempRange = `${data.forecast[0].low_temperature} ~ ${data.forecast[0].high_temperature}℃`;
       newState.nowAirQuality = data.current_observation.aqi;
       newState.pm25 = data.current_observation.pm25;
       newState.forecasts = data.forecast.map(dailyData => ({
         weekday: (isNaN(dailyData.date.weekday) ? dailyData.date.weekday : getWeek(dailyData.date.weekday)),
-        date: dailyData.date.month + '-' + (dailyData.date.day > 9 ? dailyData.date.day : "0" + dailyData.date.day ),
-        icon_url: 'https://yuan-weather.000webhostapp.com' + dailyData.icon_url,
+        date: `${dailyData.date.month}-${(dailyData.date.day > 9 ? dailyData.date.day : "0" + dailyData.date.day)}`,
+        icon_url: `https://yuan-weather.000webhostapp.com${dailyData.icon_url}`,
         condition: dailyData.condition,
         high_temperature: dailyData.high_temperature,
         low_temperature: dailyData.low_temperature
       }));
       this.setState(newState);
-    }).catch((err) => {
+    }).catch(err => {
       alert(err.message);
     });
   }
@@ -103,7 +103,7 @@ export default class WeatherOfCity extends Component {
 
         <View style={[horizontalflex, centerflex, {maxWidth: 350, marginLeft: 'auto', marginRight: 'auto'}]}>
           {this.state.forecasts.map(item => (
-            <View style={evenflexitems} key={'' + item.date}>
+            <View style={evenflexitems} key={`${item.date}`}>
               <Text style={textaligncenter}>{item.weekday} {item.date}</Text>
               <Image source={{uri: item.icon_url}} style={weathericon} />
               <Text style={textaligncenter}>{item.condition}</Text>
