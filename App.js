@@ -57,43 +57,58 @@ export default class WeatherOfCity extends Component {
     });
   }
   render() {
+    const {
+      backbutton,
+      centerflex,
+      citytitle,
+      container,
+      evenflexitems,
+      headercontainer,
+      horizontalcenter,
+      horizontalflex,
+      nowcondition,
+      weathericon,
+      whitecolor,
+      widthevenly,
+      textaligncenter
+    } = styles;
     return (
-      <ScrollView style={styles.container}>
-        <View style={styles.headercontainer}>
-          <TouchableHighlight style={styles.backbutton} onPress={this._onPressBackButton}>
-            <Text style={styles.whitecolor}>Back</Text>
+      <ScrollView style={container}>
+        <View style={headercontainer}>
+          <TouchableHighlight style={backbutton} onPress={this._onPressBackButton}>
+            <Text style={whitecolor}>Back</Text>
           </TouchableHighlight>
-          <Text style={[styles.horizontalcenter, styles.whitecolor]}>天气预报</Text>
+          <Text style={[horizontalcenter, whitecolor]}>天气预报</Text>
         </View>
         <View>
-          <Text style={[styles.horizontalcenter, styles.citytitle]}>{this.state.location}</Text>
-          <View style={styles.nowcondition}>
-            <View style={styles.widthevenly}>
-              <Image source={{uri: "https://yuan-weather.000webhostapp.com/images/cond_icon/100.png"}} style={styles.weathericon}/>
+          <Text style={[horizontalcenter, citytitle]}>{this.state.location}</Text>
+          <View style={nowcondition}>
+            <View style={widthevenly}>
+              <Image source={{uri: "https://yuan-weather.000webhostapp.com/images/cond_icon/100.png"}} style={weathericon}/>
             </View>
-            <View style={styles.widthevenly}>
+            <View style={widthevenly}>
               <Text style={{marginVertical: 16}}>{this.state.nowWeatherTemp}℃</Text>
               <Text>{this.state.nowWeatherText}</Text>
             </View>
           </View>
         </View>
-        <Text style={styles.textaligncenter}>{this.state.lastUpdatedTime}</Text>
-        <Text style={styles.textaligncenter}>{this.state.todayTempRange}</Text>
-        <View style={[styles.horizontalflex, styles.centerflex]}>
+        <Text style={textaligncenter}>{this.state.lastUpdatedTime}</Text>
+        <Text style={textaligncenter}>{this.state.todayTempRange}</Text>
+        <View style={[horizontalflex, centerflex]}>
           <Text>空气质量：</Text>
           <Text>{this.state.nowAirQuality}</Text>
           <Text> PM2.5浓度：{this.state.pm25}</Text>
           <Text>μg/m³</Text>
         </View>
 
-        <View style={[styles.horizontalflex, styles.centerflex, {maxWidth: 350, marginLeft: 'auto', marginRight: 'auto'}]}>
+        <View style={[horizontalflex, centerflex, {maxWidth: 350, marginLeft: 'auto', marginRight: 'auto'}]}>
           {this.state.forecasts.map(item => (
-            <View style={styles.evenflexitems} key={'' + item.date}>
-              <Text style={styles.textaligncenter}>{item.weekday} {item.date}</Text>
-              <Image source={{uri: item.icon_url}} style={styles.weathericon} />
-              <Text style={styles.textaligncenter}>{item.condition}</Text>
-              <Text style={styles.textaligncenter}>{item.high_temperature}°</Text>
-              <Text style={styles.textaligncenter}>{item.low_temperature}°</Text>
+            <View style={evenflexitems} key={'' + item.date}>
+              <Text style={textaligncenter}>{item.weekday} {item.date}</Text>
+              <Image source={{uri: item.icon_url}} style={weathericon} />
+              <Text style={textaligncenter}>{item.condition}</Text>
+              <Text style={textaligncenter}>{item.high_temperature}°</Text>
+              <Text style={textaligncenter}>{item.low_temperature}°</Text>
             </View>
           ))}
         </View>
