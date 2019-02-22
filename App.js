@@ -31,19 +31,22 @@ export default class WeatherOfCity extends Component {
     }
 
     getWeatherDataByLocation('shenzhen').then(rawdata => {
-      const data = rawdata.data;
-      let newState = {};
-      var location = data.location;
+      const {
+        current_observation,
+        forecast,
+        location
+      } = rawdata.data;
+      const newState = {};
 
       newState.location = `${location.state}${location.city}`;
-      newState.nowWeatherIcon = `.${data.current_observation.icon_url}`;
-      newState.nowWeatherTemp = `${data.current_observation.temperature}${(isNaN(data.current_observation.temperature) ? '' : '℃')}`;
-      newState.nowWeatherText = data.current_observation.weather;
-      newState.lastUpdatedTime = data.current_observation.observation_time;
-      newState.todayTempRange = `${data.forecast[0].low_temperature} ~ ${data.forecast[0].high_temperature}℃`;
-      newState.nowAirQuality = data.current_observation.aqi;
-      newState.pm25 = data.current_observation.pm25;
-      newState.forecasts = data.forecast.map(dailyData => ({
+      newState.nowWeatherIcon = `.${current_observation.icon_url}`;
+      newState.nowWeatherTemp = `${current_observation.temperature}${(isNaN(current_observation.temperature) ? '' : '℃')}`;
+      newState.nowWeatherText = current_observation.weather;
+      newState.lastUpdatedTime = current_observation.observation_time;
+      newState.todayTempRange = `${forecast[0].low_temperature} ~ ${forecast[0].high_temperature}℃`;
+      newState.nowAirQuality = current_observation.aqi;
+      newState.pm25 = current_observation.pm25;
+      newState.forecasts = forecast.map(dailyData => ({
         weekday: (isNaN(dailyData.date.weekday) ? dailyData.date.weekday : getWeek(dailyData.date.weekday)),
         date: `${dailyData.date.month}-${(dailyData.date.day > 9 ? dailyData.date.day : "0" + dailyData.date.day)}`,
         icon_url: `https://yuan-weather.000webhostapp.com${dailyData.icon_url}`,
