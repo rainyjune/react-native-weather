@@ -32,8 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   evenflexitems: {
-    flex: 1,
-    backgroundColor: 'blue'
+    flex: 1
   },
   horizontalcenter: {
     textAlign: 'center',
