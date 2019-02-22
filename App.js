@@ -8,7 +8,7 @@ export default class WeatherOfCity extends Component {
     super(props);
     this.state = {
       location: '',
-      nowWeatherIcon: '',
+      nowWeatherIcon: 'https://yuan-weather.000webhostapp.com/images/cond_icon/100.png',
       nowWeatherText: '',
       nowWeatherTemp: '',
       nowAirQuality: '',
@@ -36,29 +36,31 @@ export default class WeatherOfCity extends Component {
         forecast,
         location
       } = rawdata.data;
-      const newState = {};
 
-      newState.location = `${location.state}${location.city}`;
-      newState.nowWeatherIcon = `.${current_observation.icon_url}`;
-      newState.nowWeatherTemp = `${current_observation.temperature}${(isNaN(current_observation.temperature) ? '' : '℃')}`;
-      newState.nowWeatherText = current_observation.weather;
-      newState.lastUpdatedTime = current_observation.observation_time;
-      newState.todayTempRange = `${forecast[0].low_temperature} ~ ${forecast[0].high_temperature}℃`;
-      newState.nowAirQuality = current_observation.aqi;
-      newState.pm25 = current_observation.pm25;
-      newState.forecasts = forecast.map(dailyData => ({
-        weekday: (isNaN(dailyData.date.weekday) ? dailyData.date.weekday : getWeek(dailyData.date.weekday)),
-        date: `${dailyData.date.month}-${(dailyData.date.day > 9 ? dailyData.date.day : "0" + dailyData.date.day)}`,
-        icon_url: `https://yuan-weather.000webhostapp.com${dailyData.icon_url}`,
-        condition: dailyData.condition,
-        high_temperature: dailyData.high_temperature,
-        low_temperature: dailyData.low_temperature
-      }));
+      const newState = {
+        location: `${location.state}${location.city}`,
+        nowWeatherIcon: `https://yuan-weather.000webhostapp.com${current_observation.icon_url}`,
+        nowWeatherTemp: `${current_observation.temperature}${(isNaN(current_observation.temperature) ? '' : '℃')}`,
+        nowWeatherText: current_observation.weather,
+        lastUpdatedTime: current_observation.observation_time,
+        todayTempRange: `${forecast[0].low_temperature} ~ ${forecast[0].high_temperature}℃`,
+        nowAirQuality: current_observation.aqi,
+        pm25: current_observation.pm25,
+        forecasts: forecast.map(dailyData => ({
+          weekday: (isNaN(dailyData.date.weekday) ? dailyData.date.weekday : getWeek(dailyData.date.weekday)),
+          date: `${dailyData.date.month}-${(dailyData.date.day > 9 ? dailyData.date.day : "0" + dailyData.date.day)}`,
+          icon_url: `https://yuan-weather.000webhostapp.com${dailyData.icon_url}`,
+          condition: dailyData.condition,
+          high_temperature: dailyData.high_temperature,
+          low_temperature: dailyData.low_temperature
+        }))
+      };
       this.setState(newState);
     }).catch(err => {
       alert(err.message);
     });
   }
+
   render() {
     const {
       backbutton,
@@ -87,10 +89,10 @@ export default class WeatherOfCity extends Component {
           <Text style={[horizontalcenter, citytitle]}>{this.state.location}</Text>
           <View style={nowcondition}>
             <View style={widthevenly}>
-              <Image source={{uri: "https://yuan-weather.000webhostapp.com/images/cond_icon/100.png"}} style={weathericon}/>
+              <Image source={{uri: `${this.state.nowWeatherIcon}`}} style={weathericon}/>
             </View>
             <View style={widthevenly}>
-              <Text style={{marginVertical: 16}}>{this.state.nowWeatherTemp}℃</Text>
+              <Text style={{marginVertical: 16}}>{this.state.nowWeatherTemp}</Text>
               <Text>{this.state.nowWeatherText}</Text>
             </View>
           </View>
